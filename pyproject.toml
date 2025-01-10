@@ -1,0 +1,107 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cam-bpw-sim"
+authors = [
+    {name = "Répai Attila", email = "repai.attila@hallgato.ppke.hu"}
+]
+description = "Blood pressure simulator and evaluation toolbox"
+requires-python = ">=3.10"
+dependencies = [
+    "bpwave==0.0.3",
+    "click",
+    "h5py",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "papermill",
+    "pydantic",
+    "seaborn",
+    "scipy",
+    "tomlkit",
+    "typer",
+    "wfdb",
+]
+dynamic = ["version", "readme"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "black[jupyter]",
+    "flake8",
+    "isort",
+    "mypy",
+]
+tests = [
+    "pytest",
+    "pytest-cov",
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme >= 1",
+]
+rich = [
+    "typer[all]",
+]
+
+[tool.setuptools]
+packages = [
+    "cam_bpw_sim",
+    "cam_bpw_sim.sensors",
+    "cam_bpw_sim.meas_nb",
+]
+include-package-data = true
+
+[project.scripts]
+cam-bpw-sim = "cam_bpw_sim.cli:run_cli"
+
+[tool.setuptools.package-data]
+"cam_bpw_sim" = ["*.scad"]
+"cam_bpw_sim.meas_nb" = ["*.ipynb"]
+
+[tool.setuptools.dynamic]
+version = {attr = "cam_bpw_sim._version.__version__"}
+readme = {file = ["README.rst", "CHANGELOG.rst"]}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--import-mode=importlib",
+]
+markers = [
+    "human: needs a human to verify the output (like plotting)",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?|\.ipynb$'
+
+[tool.mypy]
+exclude = [
+    "^build/*",
+    "^docs/*",
+    "^tests/*",
+]
+plugins = [
+    "pydantic.mypy"
+]
+ignore_missing_imports = true  # wfdb
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true

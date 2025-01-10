@@ -1,0 +1,9 @@
+@import 'theme.css';
+
+.descclassname {
+    color: gray;
+}
+
+.descname {
+    color: black;
+}

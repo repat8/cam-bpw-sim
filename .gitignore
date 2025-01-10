@@ -1,0 +1,11 @@
+/.idea/
+/build/
+/.venv
+*.egg-info/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+.mypy_cache/
+/docs/build/
+/tests/out/
+/out/
